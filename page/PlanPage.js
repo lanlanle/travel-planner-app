@@ -1,8 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,Button} from 'react-native';
 import City from '../components/city'
 
 export default class PlanPage extends React.Component {
+  static navigationOptions = {
+    title: 'Your Plans'
+  };
   constructor(props){
     super(props);
     this.state={
@@ -18,6 +21,8 @@ export default class PlanPage extends React.Component {
     this.setState({inputCity: '' });
   }
   render() {
+    // Add navigation 
+    const { navigate } = this.props.navigation;
 
     //Add the array here 
     let cities = this.state.cityArray.map((city,key)=>{
@@ -26,7 +31,10 @@ export default class PlanPage extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style = {styles.title} >Your Plans</Text>
+        <Button
+          onPress={() => navigate('Detail')}
+          title="Detail Page"
+        />
         <ScrollView>
             {cities}
         </ScrollView>
