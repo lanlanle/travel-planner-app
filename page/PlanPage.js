@@ -4,7 +4,7 @@ import City from '../components/city'
 
 export default class PlanPage extends React.Component {
   static navigationOptions = {
-    title: 'Your Plans'
+    title: 'Plans'
   };
   constructor(props){
     super(props);
