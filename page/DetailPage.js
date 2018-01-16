@@ -2,9 +2,17 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default class DetailPage extends React.Component {
-  render() {
+	static navigationOptions = ({ navigation }) => ({
+    	title: `${navigation.state.params.city}`,
+  	});
+  	render() {
+    // The screen's current route is passed in to `props.navigation.state`:
+    const { params } = this.props.navigation.state;
     return (
-      <Text> Your detailed plan </Text>
+      <View>
+        <Text> Welcome to {params.city} !!!!!</Text>
+      </View>
     );
   }
+  	
 }

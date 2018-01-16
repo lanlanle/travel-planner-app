@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableHighlight} from 'react-native';
 
 export default class City extends React.Component {
+  setNativeProps = (nativeProps) => {
+    this._root.setNativeProps(nativeProps);
+  }
   render() {
     return (
-      <View style={styles.item}>
-        <Text style ={styles.itemText}>{this.props.city}</Text>
+      <View style={styles.item} ref={component => this._root = component}>
+            <Text style ={styles.itemText}> {this.props.city}</Text>  
       </View>
     );
   }

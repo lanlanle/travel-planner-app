@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,Button} from 'react-native';
+import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,TouchableHighlight,Button} from 'react-native';
 import City from '../components/city'
 
 export default class PlanPage extends React.Component {
@@ -26,15 +26,16 @@ export default class PlanPage extends React.Component {
 
     //Add the array here 
     let cities = this.state.cityArray.map((city,key)=>{
-      return <City  key={key} keyval={key} city={city}/>
+
+      return(
+        <TouchableHighlight  key={key} keyval={key} onPress={() => navigate('Detail', { city:city})} title={city}>
+          <City  key={key} keyval={key} city={city}/>
+        </TouchableHighlight>
+        )
     })
 
     return (
       <View style={styles.container}>
-        <Button
-          onPress={() => navigate('Detail')}
-          title="Detail Page"
-        />
         <ScrollView>
             {cities}
         </ScrollView>
