@@ -1,14 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button} from 'react-native';
+import { StyleSheet, Text, View,Button,TextInput} from 'react-native';
 import axios from 'axios'
 
 
 const info = require('../info.json');
 
-
-
-
 export default class ExploreCityPage extends React.Component {
+	constructor(props){
+	    super(props);
+	    this.state={
+	      searchCity:''
+	    }
+	}
 
 	getPlaces(){
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+Sydney&key='+info.API_KEY).then((response)=>{
@@ -20,9 +23,22 @@ export default class ExploreCityPage extends React.Component {
 			console.log(response.data.results)
 		})
 	}
+
+	autoComplete = (searchCity)=>{
+		this.setState({searchCity})
+		console.log(searchCity)
+	}
+
 	render() {
 	     return (
 	     	<View>
+	     		<TextInput 
+		              style={styles.textInput}
+		              onChangeText={this.autoComplete}
+		              value ={this.state.searchCity} 
+		              placeholder='Add new city to your plan' 
+		              placeholderTextColor='white'>
+        		</TextInput>
 		     	<Button
 					  onPress={this.getPlaces}
 					  title="Places"
@@ -40,3 +56,15 @@ export default class ExploreCityPage extends React.Component {
 
 	}
 }
+const styles = StyleSheet.create({
+  textInput: {
+        alignSelf: 'stretch',
+        color: '#fff',
+        padding: 20,
+        backgroundColor: '#252525',
+        borderTopWidth:2,
+        borderTopColor: '#ededed'
+  }
+
+});
+
