@@ -17,7 +17,7 @@ export default class PlanPage extends React.Component {
     if(this.state.inputCity){
       this.state.cityArray.push(this.state.inputCity);
     }
-    this.setState({noteArray: this.state.cityArray});
+    this.setState({cityArray: this.state.cityArray});
     this.setState({inputCity: '' });
   }
   render() {

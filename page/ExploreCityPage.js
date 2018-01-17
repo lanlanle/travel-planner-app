@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Button,TextInput} from 'react-native';
+import AutoSuggest from 'react-native-autosuggest';
 import axios from 'axios'
 
 
@@ -28,23 +29,24 @@ export default class ExploreCityPage extends React.Component {
 	autoComplete = (searchCity)=>{
 		this.setState({searchCity})
 		axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+searchCity+'&types=geocode&key='+info.API_KEY).then((response)=>{
-			// console.log(response.data.predictions)
 			response.data.predictions.map((result)=>{
-				console.log(result.description)
+				this.state.searchResultArray.push(result.description)
 			})
 		})
+		this.setState({searchResultArray:[]})
 	}
 
 	render() {
 	     return (
 	     	<View>
-	     		<TextInput 
+	     		<AutoSuggest
 		              style={styles.textInput}
+		              terms={this.state.searchResultArray}
 		              onChangeText={this.autoComplete}
 		              value ={this.state.searchCity} 
-		              placeholder='Add new city to your plan' 
-		              placeholderTextColor='white'>
-        		</TextInput>
+		              placeholder='Seach places' 
+		         />
+   
 		     	<Button
 					  onPress={this.getPlaces}
 					  title="Places"
