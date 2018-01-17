@@ -15,12 +15,22 @@ export default class ExploreCityPage extends React.Component {
 			console.log(response.data.results)
 		})
 	}
+	getRestaurants(){
+		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Sydney&key='+info.API_KEY).then((response)=>{
+			console.log(response.data.results)
+		})
+	}
 	render() {
 	     return (
 	     	<View>
 		     	<Button
 					  onPress={this.getPlaces}
-					  title="Press Me"
+					  title="Places"
+					  color="#841584"
+				/>
+				<Button
+					  onPress={this.getRestaurants}
+					  title="Restaurants"
 					  color="#841584"
 				/>
 
