@@ -9,6 +9,7 @@ export default class ExploreCityPage extends React.Component {
 	constructor(props){
 	    super(props);
 	    this.state={
+	   	  searchResultArray:[],
 	      searchCity:''
 	    }
 	}
@@ -26,7 +27,12 @@ export default class ExploreCityPage extends React.Component {
 
 	autoComplete = (searchCity)=>{
 		this.setState({searchCity})
-		console.log(searchCity)
+		axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+searchCity+'&types=geocode&key='+info.API_KEY).then((response)=>{
+			// console.log(response.data.predictions)
+			response.data.predictions.map((result)=>{
+				console.log(result.description)
+			})
+		})
 	}
 
 	render() {
