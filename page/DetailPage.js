@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {DetailPageNavigator} from './DetailPageNavigator'
+
 
 export default class DetailPage extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
@@ -11,12 +11,9 @@ export default class DetailPage extends React.Component {
     const { params } = this.props.navigation.state;
     return (
       <View>
-        <Text> Welcome to {params.city} !!!!!</Text>
-        <DetailPageNavigator navigation={this.props.navigation}/>
+        <Text> Your current plan in {params.city} !!!!!</Text>
       </View>
     );
   }
   	
 }
-
-DetailPage.router = DetailPageNavigator.router
