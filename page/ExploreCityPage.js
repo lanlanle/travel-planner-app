@@ -11,18 +11,22 @@ export default class ExploreCityPage extends React.Component {
 	    super(props);
 	    this.state={
 	   	  searchResultArray:[],
-	      searchCity:''
+	      searchCity:'',
+	      placesResultArray:[],
+	      restaurantsResultArray:[]
 	    }
 	}
 
-	getPlaces(){
-		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+Sydney&key='+info.API_KEY).then((response)=>{
+	getPlaces(param){
+		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+'+param+'&key='+info.API_KEY).then((response)=>{
 			console.log(response.data.results)
+			this.setState({placesResultArray:response.data.results})
 		})
 	}
-	getRestaurants(){
-		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+Sydney&key='+info.API_KEY).then((response)=>{
+	getRestaurants(param){
+		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+'+param+'&key='+info.API_KEY).then((response)=>{
 			console.log(response.data.results)
+			this.setState({placesResultArray:response.data.results})
 		})
 	}
 
@@ -36,6 +40,14 @@ export default class ExploreCityPage extends React.Component {
 		this.setState({searchResultArray:[]})
 	}
 
+	findPlacesandRestaurants(){
+		if(this.state.searchCity){
+			var city_param = this.state.searchCity.replace(/\s/g, "")
+			this.getPlaces(city_param)
+			this.getRestaurants(city_param)
+		}
+	}
+
 	render() {
 	     return (
 	     	<View>
@@ -44,17 +56,13 @@ export default class ExploreCityPage extends React.Component {
 		              terms={this.state.searchResultArray}
 		              onChangeText={this.autoComplete}
 		              value ={this.state.searchCity} 
-		              placeholder='Seach places' 
+		              placeholder='Seach places and restaurants' 
+		              onSubmitEditing= {this.findPlacesandRestaurants.bind(this)}
 		         />
    
 		     	<Button
-					  onPress={this.getPlaces}
-					  title="Places"
-					  color="#841584"
-				/>
-				<Button
-					  onPress={this.getRestaurants}
-					  title="Restaurants"
+					  onPress={this.findPlacesandRestaurants.bind(this)}
+					  title="Find places and restaurants"
 					  color="#841584"
 				/>
 
