@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,TouchableHighlight,Button} from 'react-native';
+import { List, ListItem } from 'react-native-elements';
 import City from '../components/city'
 
 export default class PlanPage extends React.Component {
@@ -37,7 +38,9 @@ export default class PlanPage extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-            {cities}
+            <List>
+              {cities}
+            </List>
         </ScrollView>
 
         <TextInput 
@@ -58,15 +61,8 @@ export default class PlanPage extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  title:{
-    margin:20,
-    fontSize:30
-  },
   container: {
-    flex: 1,
-    backgroundColor: '#8abdbf',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1
   },
   addButton: {
         position: 'absolute',

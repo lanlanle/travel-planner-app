@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,TouchableHighlight} from 'react-native';
+import { Button, List, ListItem } from 'react-native-elements';
 
 export default class City extends React.Component {
   setNativeProps = (nativeProps) => {
@@ -7,8 +8,8 @@ export default class City extends React.Component {
   }
   render() {
     return (
-      <View style={styles.item} ref={component => this._root = component}>
-            <Text style ={styles.itemText}> {this.props.city}</Text>  
+      <View  ref={component => this._root = component}>
+          <ListItem title={this.props.city}/>
       </View>
     );
   }
