@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TextInput,ScrollView} from 'react-native';
+import { StyleSheet, Text, View,TextInput,ScrollView,TouchableHighlight} from 'react-native';
 import { Button, List, ListItem } from 'react-native-elements';
 import AutoSuggest from 'react-native-autosuggest';
 import axios from 'axios'
@@ -9,6 +9,15 @@ const info = require('../info.json');
 
 
 export default class ExploreCityPage extends React.Component {
+
+	static navigationOptions = {
+    	title: 'Explore'
+  	};
+
+  	setNativeProps (nativeProps) {
+    	this._root.setNativeProps(nativeProps);
+  	}
+
 	constructor(props){
 	    super(props);
 	    this.state={
@@ -24,11 +33,8 @@ export default class ExploreCityPage extends React.Component {
 
 	getPlaces(param){
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+'+param+'&key='+info.API_KEY).then((response)=>{
-			// console.log(response.data.results)
 			this.setState({placesResultArray:response.data.results})
 			response.data.results.map((item)=>{
-				// console.log(item.photos[0].photo_reference)
-				// this.state.placesPhotoReferenceArray.push(item.photos[0].photo_reference)
 				this.getPhotos(this.state.placesImageUrlArray,item.photos[0].photo_reference)
 			})
 			
@@ -36,11 +42,8 @@ export default class ExploreCityPage extends React.Component {
 	}
 	getRestaurants(param){
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+'+param+'&key='+info.API_KEY).then((response)=>{
-			// console.log(response.data.results)
 			this.setState({restaurantsResultArray:response.data.results})
 			response.data.results.map((item)=>{
-				// console.log(item.photos[0].photo_reference)
-				// this.state.placesPhotoReferenceArray.push(item.photos[0].photo_reference)
 				this.getPhotos(this.state.restaurantsImageUrlArray,item.photos[0].photo_reference)
 			})
 			
@@ -59,7 +62,7 @@ export default class ExploreCityPage extends React.Component {
 
 	getPhotos(array,photo_reference){
 		axios.get('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+photo_reference+'&key='+info.API_KEY).then((response)=>{
-			console.log(response.request.responseURL)
+			// console.log(response.request.responseURL)
 			array.push(response.request.responseURL)
 		}).catch((err)=>{
 				console.log(err);
@@ -77,22 +80,38 @@ export default class ExploreCityPage extends React.Component {
 	}
 
 	render() {
-		console.log("info",this.state.placesResultArray)
-		console.log("places",this.state.placesImageUrlArray)
-		console.log('restaurants', this.state.restaurantsImageUrlArray)
+		const { navigate } = this.props.navigation;
+		// console.log("info",this.state.placesResultArray)
+		// console.log("places",this.state.placesImageUrlArray)
+		// console.log('restaurants', this.state.restaurantsImageUrlArray)
 		let placeList = this.state.placesResultArray.map((item,key)=>{
-			// console.log(item.name)
-			return <ListItem key={key} keyval={key} 
+			return(
+				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name})} title={item.name}>
+					<View ref={component => this._root = component}>
+						<ListItem key={key} keyval={key} 
 								title={item.name} 
 								subtitle={`Rating: ${item.rating}`}
 								avatar={{uri:this.state.placesImageUrlArray[key]}}/>
+					</View>
+					
+				</TouchableHighlight>
+			) 
 		})
+		
 		let restaurantList = this.state.restaurantsResultArray.map((item,key)=>{
 			// console.log(item.name)
-			return <ListItem key={key} keyval={key} 
-							title={item.name}
-							subtitle={`Rating: ${item.rating}`}
-							avatar={{uri:this.state.restaurantsImageUrlArray[key]}}/>
+			return (
+				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name})} title={item.name}>
+					<View ref={component => this._root = component}>
+						<ListItem key={key} keyval={key} 
+								title={item.name} 
+								subtitle={`Rating: ${item.rating}`}
+								avatar={{uri:this.state.restaurantsImageUrlArray[key]}}/>
+					</View>
+					
+				</TouchableHighlight>
+
+			) 
 		})
 	     return (
 	     	<View>

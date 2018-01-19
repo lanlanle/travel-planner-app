@@ -4,14 +4,14 @@ import {
   Text,
 } from 'react-native';
 import { TabNavigator,TabView } from 'react-navigation';
-import ExploreCityPage from './page/ExploreCityPage'
+import ExploreNavigator from './page/ExploreNavigator'
 import PlanNavigator from './page/PlanNavigator'
 import Icon from "react-native-vector-icons/FontAwesome";
 
 
 export const TravelApp = TabNavigator({
  	Explore:{
- 		screen:ExploreCityPage,
+ 		screen:ExploreNavigator,
  		navigationOptions: {
  			tabBarLabel: "Explore",
  			tabBarIcon:({ tintColor }) => <Icon name={"search"} size={30} color={tintColor} />
