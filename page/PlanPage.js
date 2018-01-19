@@ -29,7 +29,7 @@ export default class PlanPage extends React.Component {
     let cities = this.state.cityArray.map((city,key)=>{
 
       return(
-        <TouchableHighlight  key={key} keyval={key} onPress={() => navigate('Detail', { city:city})} title={city}>
+        <TouchableHighlight  key={key} keyval={key} onPress={() => navigate('Detail', {city:city})} title={city}>
           <City  key={key} keyval={key} city={city}/>
         </TouchableHighlight>
         )

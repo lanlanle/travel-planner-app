@@ -86,7 +86,7 @@ export default class ExploreCityPage extends React.Component {
 		// console.log('restaurants', this.state.restaurantsImageUrlArray)
 		let placeList = this.state.placesResultArray.map((item,key)=>{
 			return(
-				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name})} title={item.name}>
+				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name,placeID:item.place_id,photoUrl:this.state.placesImageUrlArray[key]})} title={item.name}>
 					<View ref={component => this._root = component}>
 						<ListItem key={key} keyval={key} 
 								title={item.name} 
@@ -97,11 +97,11 @@ export default class ExploreCityPage extends React.Component {
 				</TouchableHighlight>
 			) 
 		})
-		
+
 		let restaurantList = this.state.restaurantsResultArray.map((item,key)=>{
 			// console.log(item.name)
 			return (
-				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name})} title={item.name}>
+				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name,placeID:item.place_id,photoUrl:this.state.restaurantsImageUrlArray[key]})} title={item.name}>
 					<View ref={component => this._root = component}>
 						<ListItem key={key} keyval={key} 
 								title={item.name} 
