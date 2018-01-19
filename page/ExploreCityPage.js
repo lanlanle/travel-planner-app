@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View,TextInput,ScrollView} from 'react-native';
-import { Button,List, ListItem } from 'react-native-elements';
+import { Button, List, ListItem } from 'react-native-elements';
 import AutoSuggest from 'react-native-autosuggest';
 import axios from 'axios'
 
 
 const info = require('../info.json');
+
 
 export default class ExploreCityPage extends React.Component {
 	constructor(props){
@@ -14,7 +15,10 @@ export default class ExploreCityPage extends React.Component {
 	   	  searchResultArray:[],
 	      searchCity:'',
 	      placesResultArray:[],
-	      restaurantsResultArray:[]
+	      restaurantsResultArray:[],
+	      placesPhotoReferenceArray:[],
+	      placesImageUrlArray:[],
+	      restaurantsImageUrlArray:[]
 	    }
 	}
 
@@ -22,12 +26,24 @@ export default class ExploreCityPage extends React.Component {
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+'+param+'&key='+info.API_KEY).then((response)=>{
 			// console.log(response.data.results)
 			this.setState({placesResultArray:response.data.results})
+			response.data.results.map((item)=>{
+				// console.log(item.photos[0].photo_reference)
+				// this.state.placesPhotoReferenceArray.push(item.photos[0].photo_reference)
+				this.getPhotos(this.state.placesImageUrlArray,item.photos[0].photo_reference)
+			})
+			
 		})
 	}
 	getRestaurants(param){
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+'+param+'&key='+info.API_KEY).then((response)=>{
 			// console.log(response.data.results)
 			this.setState({restaurantsResultArray:response.data.results})
+			response.data.results.map((item)=>{
+				// console.log(item.photos[0].photo_reference)
+				// this.state.placesPhotoReferenceArray.push(item.photos[0].photo_reference)
+				this.getPhotos(this.state.restaurantsImageUrlArray,item.photos[0].photo_reference)
+			})
+			
 		})
 	}
 
@@ -41,23 +57,42 @@ export default class ExploreCityPage extends React.Component {
 		this.setState({searchResultArray:[]})
 	}
 
+	getPhotos(array,photo_reference){
+		axios.get('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+photo_reference+'&key='+info.API_KEY).then((response)=>{
+			console.log(response.request.responseURL)
+			array.push(response.request.responseURL)
+		}).catch((err)=>{
+				console.log(err);
+		})
+	}
+
 	findPlacesandRestaurants(){
 		if(this.state.searchCity){
 			var city_param = this.state.searchCity.replace(/\s/g, "")
 			this.getPlaces(city_param)
 			this.getRestaurants(city_param)
+			
 		}
 
 	}
 
 	render() {
+		console.log("info",this.state.placesResultArray)
+		console.log("places",this.state.placesImageUrlArray)
+		console.log('restaurants', this.state.restaurantsImageUrlArray)
 		let placeList = this.state.placesResultArray.map((item,key)=>{
-			console.log(item.name)
-			return <ListItem key={key} keyval={key} title={item.name} subtitle={item.formatted_address}/>
+			// console.log(item.name)
+			return <ListItem key={key} keyval={key} 
+								title={item.name} 
+								subtitle={`Rating: ${item.rating}`}
+								avatar={{uri:this.state.placesImageUrlArray[key]}}/>
 		})
 		let restaurantList = this.state.restaurantsResultArray.map((item,key)=>{
-			console.log(item.name)
-			return <ListItem key={key} keyval={key} title={item.name} subtitle={item.formatted_address}/>
+			// console.log(item.name)
+			return <ListItem key={key} keyval={key} 
+							title={item.name}
+							subtitle={`Rating: ${item.rating}`}
+							avatar={{uri:this.state.restaurantsImageUrlArray[key]}}/>
 		})
 	     return (
 	     	<View>
