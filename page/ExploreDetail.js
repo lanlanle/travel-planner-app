@@ -85,7 +85,11 @@ export default class ExploreDetail extends React.Component {
       <View>
         <Image resizeMode={'cover'} style={{width: '100%', height: 150}} source={{uri:params.photoUrl}}/>
         <Text style = {styles.title}> {params.place} </Text>
-        <Text>Website: {this.state.website}</Text>
+        <Text style ={styles.header}>Website: {this.state.website}</Text>
+        <Button
+            title="Add to your plans"
+            color="#841584"
+        />
         <Text style= {styles.header}>Photos</Text>
         <ScrollView horizontal={true}>
           {photosList}
@@ -110,10 +114,12 @@ export default class ExploreDetail extends React.Component {
 const styles = StyleSheet.create({
   title: {
     marginTop:5,
+    marginLeft:15,
     fontSize:20
   },
   header: {
       marginTop:5,
+      marginLeft:15,
       fontSize:15
   }
 })
