@@ -25,7 +25,8 @@ router.post('/',(req,res)=>{
 //get request
 
 router.get('/',(req,res)=>{
-	PlaceItem.find({},(err,places)=>{
+	console.log(req.query.cityName)
+	PlaceItem.find({cityName:req.query.cityName},(err,places)=>{
 		if (err) throw err;
 		res.status(200).send(places)
 	})
