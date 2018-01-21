@@ -9,23 +9,14 @@ export default class City extends React.Component {
   render() {
     return (
       <View  ref={component => this._root = component}>
-          <ListItem title={this.props.city}/>
+          <ListItem style={styles.itemText} title={this.props.city}/>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  item: {
-        margin:3,
-        width:250,
-        padding: 5,
-        backgroundColor:'#454565',
-        borderRadius:5,    
-        alignItems: 'flex-start'
-  },
+const styles = StyleSheet.create({ 
   itemText: {
-        color: '#FFF',
-        fontSize:20       
+        fontSize:15      
   },
 });

@@ -1,7 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,TouchableHighlight,Button} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
-import City from '../components/city'
+import axios from 'axios';
+import City from '../components/city';
+
+
+const info = require('../info.json');
 
 export default class PlanPage extends React.Component {
   static navigationOptions = {
@@ -21,6 +25,16 @@ export default class PlanPage extends React.Component {
     this.setState({cityArray: this.state.cityArray});
     this.setState({inputCity: '' });
   }
+  getPlans(){
+    return axios.get('http://'+info.URL+':3000/plans').then((response)=>{
+      this.setState({cityArray:response.data})
+    }).catch((err)=>{
+      throw err;
+    })
+  }
+  componentDidMount(){
+    this.getPlans()
+  }
   render() {
     // Add navigation 
     const { navigate } = this.props.navigation;
@@ -28,32 +42,29 @@ export default class PlanPage extends React.Component {
     //Add the array here 
     let cities = this.state.cityArray.map((city,key)=>{
 
-      return(
-        <TouchableHighlight  key={key} keyval={key} onPress={() => navigate('Detail', {city:city})} title={city}>
-          <City  key={key} keyval={key} city={city}/>
+      return(    
+        <TouchableHighlight  key={key} keyval={key} onPress={() => navigate('Detail', {city:city.name})} title={city.name}>
+          <City  key={key} keyval={key} city={city.name}/>
         </TouchableHighlight>
         )
     })
 
     return (
       <View style={styles.container}>
+        <TextInput 
+              style={styles.textInput}
+              onChangeText={(inputCity)=> this.setState({inputCity})}
+              onSubmitEditing={this.addCity.bind(this)}
+              value ={this.state.inputCity} 
+              placeholder='Add plan...' 
+              placeholderTextColor='#D3D3D3'>
+        </TextInput>
         <ScrollView>
             <List>
               {cities}
             </List>
         </ScrollView>
 
-        <TextInput 
-              style={styles.textInput}
-              onChangeText={(inputCity)=> this.setState({inputCity})}
-              value ={this.state.inputCity} 
-              placeholder='Add new city to your plan' 
-              placeholderTextColor='white'>
-        </TextInput>
-
-        <TouchableOpacity onPress={ this.addCity.bind(this) } style = {styles.addButton}>
-            <Text style ={styles.addButtonText}>+</Text>
-        </TouchableOpacity>
         
       </View>
     );
@@ -83,11 +94,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
         alignSelf: 'stretch',
-        color: '#fff',
-        padding: 20,
-        backgroundColor: '#252525',
+        color: '#808080',
+        padding: 10,
+        backgroundColor: '#fff',
         borderTopWidth:2,
-        borderTopColor: '#ededed'
+        borderTopColor: '#ededed',
+        margin:10,
+        borderRadius:10
   }
 
 });
