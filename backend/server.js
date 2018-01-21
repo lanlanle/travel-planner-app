@@ -4,8 +4,10 @@ var db = require('./db');
 var app = express();
 
 var PlansController = require('./PlansController')
-app.use('/plans',PlansController)
+var PlacesController = require('./PlacesController')
 
+app.use('/plans',PlansController)
+app.use('/places',PlacesController)
 
 
 
