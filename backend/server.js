@@ -1,7 +1,10 @@
 var express = require('express');
+var db = require('./db');
+
 var app = express();
 
-
+var PlansController = require('./PlansController')
+app.use('/plans',PlansController)
 
 
 
