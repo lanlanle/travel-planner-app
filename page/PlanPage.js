@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,TouchableHighlight,Button} from 'react-native';
+import { StyleSheet, Text, View, ScrollView,TextInput,TouchableOpacity,TouchableHighlight,Button, ImageBackground} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import axios from 'axios';
 import City from '../components/city';
@@ -30,7 +30,7 @@ export default class PlanPage extends React.Component {
     console.log(this.state.inputCity)
     if(this.state.inputCity){
          axios.post('http://'+info.URL+':3000/plans',{name:this.state.inputCity},config).then((response)=>{
-          console.log(response.data);
+          console.log(response);
         }).catch((err)=>{
           throw err;
         })
@@ -64,7 +64,8 @@ export default class PlanPage extends React.Component {
     })
 
     return (
-      <View style={styles.container}>
+      
+      <ImageBackground source={{uri:"http://afamilycdn.com/KKeeNwcSSZYWZsF7Ky9KzFlY9R0wGt/Image/2013/10/Ngam/1310/tumblr_mormapKZj21rbwsb5o1_1280-e4f70.jpg"}} style={styles.backgroundImage}>
         <TextInput 
               style={styles.textInput}
               onChangeText={(inputCity)=> this.setState({inputCity})}
@@ -74,20 +75,18 @@ export default class PlanPage extends React.Component {
               placeholderTextColor='#D3D3D3'>
         </TextInput>
         <ScrollView>
-            <List>
               {cities}
-            </List>
         </ScrollView>
-
         
-      </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
+  backgroundImage:{
+    flex: 1,
+    resizeMode: 'cover'
   },
   addButton: {
         position: 'absolute',
