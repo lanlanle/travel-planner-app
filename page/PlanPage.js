@@ -6,10 +6,10 @@ import City from '../components/city';
 
 
 const info = require('../info.json');
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-var config ={
-  headers:{'Content-Type':'application/x-www-form-urlencoded'}
-}
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// var config ={
+//   headers:{'Content-Type':'application/x-www-form-urlencoded'}
+// }
 
 export default class PlanPage extends React.Component {
   static navigationOptions = {
@@ -29,7 +29,7 @@ export default class PlanPage extends React.Component {
     // this.setState({cityArray: this.state.cityArray});
     console.log(this.state.inputCity)
     if(this.state.inputCity){
-         axios.post('http://'+info.URL+':3000/plans',{name:this.state.inputCity},config).then((response)=>{
+         axios.post('http://'+info.URL+':3000/plans',{"name":this.state.inputCity}).then((response)=>{
           console.log(response);
         }).catch((err)=>{
           throw err;
@@ -75,6 +75,7 @@ export default class PlanPage extends React.Component {
               placeholderTextColor='#D3D3D3'>
         </TextInput>
         <ScrollView>
+            
               {cities}
         </ScrollView>
         
