@@ -30,13 +30,12 @@ export default class PlanPage extends React.Component {
     console.log(this.state.inputCity)
     if(this.state.inputCity){
          axios.post('http://'+info.URL+':3000/plans',{"name":this.state.inputCity}).then((response)=>{
-          console.log(response);
+          console.log(response.data);
+          this.getPlans();
         }).catch((err)=>{
           throw err;
         })
     }
-   
-    this.getPlans();
     this.setState({inputCity: '' });
   }
   getPlans(){
@@ -49,6 +48,7 @@ export default class PlanPage extends React.Component {
   componentDidMount(){
     this.getPlans()
   }
+  // componentDidUpda
   render() {
     // Add navigation 
     const { navigate } = this.props.navigation;
