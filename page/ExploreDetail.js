@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image,ScrollView,FlatList } from 'react-native';
+import { StyleSheet, Text, View,Image,ScrollView,FlatList, TouchableOpacity } from 'react-native';
 import { Button, List, ListItem } from 'react-native-elements';
 import axios from 'axios';
 import ReviewItem from '../components/reviewItem'
@@ -84,12 +84,14 @@ export default class ExploreDetail extends React.Component {
     return (
       <View>
         <Image resizeMode={'cover'} style={{width: '100%', height: 150}} source={{uri:params.photoUrl}}/>
-        <Text style = {styles.title}> {params.place} </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style = {styles.title}> {params.place} </Text> 
+          <TouchableOpacity style = {styles.btn}>
+          <Text style= {styles.btnText}>Add</Text>
+          </TouchableOpacity>
+        </View>
         <Text style ={styles.header}>Website: {this.state.website}</Text>
-        <Button
-            title="Add to your plans"
-            color="#841584"
-        />
+        
         <Text style= {styles.header}>Photos</Text>
         <ScrollView horizontal={true}>
           {photosList}
@@ -113,7 +115,7 @@ export default class ExploreDetail extends React.Component {
 
 const styles = StyleSheet.create({
   title: {
-    marginTop:5,
+    marginTop:15,
     marginLeft:15,
     fontSize:20
   },
@@ -121,5 +123,14 @@ const styles = StyleSheet.create({
       marginTop:5,
       marginLeft:15,
       fontSize:15
+  },
+  btn: {
+    width:20,
+    margin:5,
+    backgroundColor:'#9f886f'
+  },
+  btnText: {
+    color:'#FFF',
+    padding:5
   }
 })
