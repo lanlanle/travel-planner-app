@@ -22,13 +22,13 @@ export default class ExploreDetail extends React.Component {
         website:''
       }
     }
-    _keyExtractor = (item, index) => item.id;
 
     getPlaceData(placeID){
       axios.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+placeID+"&key="+info.API_KEY).then((response)=>{
         this.setState({reviews:response.data.result.reviews})
         this.setState({website:response.data.result.website})
         response.data.result.photos.map((photo)=>{
+          // console.log("photo_ref",photo.photo_reference)
           this.getPhotos(this.state.photosUrl,photo.photo_reference)
         })
 
@@ -63,12 +63,12 @@ export default class ExploreDetail extends React.Component {
   	render() {
     
     const { params } = this.props.navigation.state;
-    // console.log(this.state.reviews)
-    console.log(this.state.photosUrl)
+    // console.log(this.state.photosUrl)
     console.log(this.state.photosUrl.length)
 
     let photosList =this.state.photosUrl.map((photoSrc,key)=>{
-      return <Image key={key} keyval={key} style={{width:150,height:120, margin:2}} source={{uri:photoSrc}}/>
+      console.log("get from list", photoSrc)
+      return <Image key={key} keyval={key} style={{width: 310, height: 200, margin:1}} source={{uri:photoSrc}}/>
     })
     let reviewsList =this.state.reviews.map((item,key)=>{
       return <ListItem key={key} keyval={key} 
@@ -83,7 +83,9 @@ export default class ExploreDetail extends React.Component {
     
     return (
       <View>
-        <Image resizeMode={'cover'} style={{width: '100%', height: 150}} source={{uri:params.photoUrl}}/>
+        <ScrollView horizontal={true}>
+          {photosList}
+        </ScrollView>
         <View style={{flexDirection: 'row'}}>
           <Text style = {styles.title}> {params.place} </Text> 
           <TouchableOpacity style = {styles.btn}>
@@ -91,11 +93,6 @@ export default class ExploreDetail extends React.Component {
           </TouchableOpacity>
         </View>
         <Text style ={styles.header}>Website: {this.state.website}</Text>
-        
-        <Text style= {styles.header}>Photos</Text>
-        <ScrollView horizontal={true}>
-          {photosList}
-        </ScrollView>
 
         <Text style ={styles.header}>Reviews</Text>
         <ScrollView>

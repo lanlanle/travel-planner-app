@@ -34,9 +34,9 @@ export default class ExploreCityPage extends React.Component {
 	getPlaces(param){
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+'+param+'&key='+info.API_KEY).then((response)=>{
 			this.setState({placesResultArray:response.data.results})
-			response.data.results.map((item)=>{
-				this.getPhotos(this.state.placesImageUrlArray,item.photos[0].photo_reference)
-			})
+			// response.data.results.map((item)=>{
+			// 	this.getPhotos(this.state.placesImageUrlArray,item.photos[0].photo_reference)
+			// })
 			
 		})
 	}
@@ -62,7 +62,6 @@ export default class ExploreCityPage extends React.Component {
 
 	getPhotos(array,photo_reference){
 		axios.get('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+photo_reference+'&key='+info.API_KEY).then((response)=>{
-			// console.log(response.request.responseURL)
 			array.push(response.request.responseURL)
 		}).catch((err)=>{
 				console.log(err);
@@ -70,10 +69,10 @@ export default class ExploreCityPage extends React.Component {
 	}
 
 	findPlacesandRestaurants(){
+		console.log('button hit')
 		if(this.state.searchCity){
 			var city_param = this.state.searchCity.replace(/\s/g, "")
 			this.getPlaces(city_param)
-			this.getRestaurants(city_param)
 			
 		}
 
@@ -81,36 +80,17 @@ export default class ExploreCityPage extends React.Component {
 
 	render() {
 		const { navigate } = this.props.navigation;
-		// console.log("info",this.state.placesResultArray)
-		// console.log("places",this.state.placesImageUrlArray)
-		// console.log('restaurants', this.state.restaurantsImageUrlArray)
 		let placeList = this.state.placesResultArray.map((item,key)=>{
 			return(
 				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name,placeID:item.place_id,photoUrl:this.state.placesImageUrlArray[key]})} title={item.name}>
 					<View ref={component => this._root = component}>
 						<ListItem key={key} keyval={key} 
 								title={item.name} 
-								subtitle={`Rating: ${item.rating}`}
-								avatar={{uri:this.state.placesImageUrlArray[key]}}/>
+								subtitle={item.types.join()}
+								avatar={{uri:item.icon}}/>
 					</View>
 					
 				</TouchableHighlight>
-			) 
-		})
-
-		let restaurantList = this.state.restaurantsResultArray.map((item,key)=>{
-			// console.log(item.name)
-			return (
-				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name,placeID:item.place_id,photoUrl:this.state.restaurantsImageUrlArray[key]})} title={item.name}>
-					<View ref={component => this._root = component}>
-						<ListItem key={key} keyval={key} 
-								title={item.name} 
-								subtitle={`Rating: ${item.rating}`}
-								avatar={{uri:this.state.restaurantsImageUrlArray[key]}}/>
-					</View>
-					
-				</TouchableHighlight>
-
 			) 
 		})
 	     return (
@@ -129,22 +109,12 @@ export default class ExploreCityPage extends React.Component {
 					  title="Find places and restaurants"
 					  color="#841584"
 				/>
-				<Text> Tourist Attractions </Text>
-				<ScrollView style = {styles.resultSection}>
+				<ScrollView>
 					<List>
 						{placeList}
 					</List>
 
 				</ScrollView>
-
-				<Text> Restaurants </Text>
-				<ScrollView style = {styles.resultSection}>
-					<List>
-						{restaurantList}
-					</List>
-
-				</ScrollView>
-
 
 				
 	     	</View>
