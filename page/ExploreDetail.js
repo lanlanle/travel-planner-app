@@ -63,12 +63,11 @@ export default class ExploreDetail extends React.Component {
   	render() {
     
     const { params } = this.props.navigation.state;
-    // console.log(this.state.photosUrl)
     console.log(this.state.photosUrl.length)
 
     let photosList =this.state.photosUrl.map((photoSrc,key)=>{
       console.log("get from list", photoSrc)
-      return <Image key={key} keyval={key} style={{width: 310, height: 200, margin:1}} source={{uri:photoSrc}}/>
+      return <Image key={key} keyval={key} style={{width: 310, height: 200, margin:2}} source={{uri:photoSrc}}/>
     })
     let reviewsList =this.state.reviews.map((item,key)=>{
       return <ListItem key={key} keyval={key} 
@@ -82,7 +81,7 @@ export default class ExploreDetail extends React.Component {
                 
     
     return (
-      <View>
+      <View style={styles.container}>
         <ScrollView horizontal={true}>
           {photosList}
         </ScrollView>
@@ -111,6 +110,10 @@ export default class ExploreDetail extends React.Component {
 
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor:'#b8b894'
+  },
   title: {
     marginTop:15,
     marginLeft:15,

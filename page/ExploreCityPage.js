@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TextInput,ScrollView,TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View,TextInput,ScrollView,TouchableHighlight,ImageBackground} from 'react-native';
 import { Button, List, ListItem } from 'react-native-elements';
 import AutoSuggest from 'react-native-autosuggest';
 import axios from 'axios'
@@ -94,21 +94,25 @@ export default class ExploreCityPage extends React.Component {
 			) 
 		})
 	     return (
-	     	<View>
+	     	<View style={styles.container}>
+	     	
 	     		<AutoSuggest
-		              style={styles.textInput}
+		              textInputStyles={{
+				        alignSelf: 'stretch',
+				        color: '#808080',
+				        width:320,
+				        backgroundColor: '#fff',
+				        borderTopColor: '#ededed',
+				        borderRadius:10,
+				        marginLeft:10
+  					}}
 		              terms={this.state.searchResultArray}
 		              onChangeText={this.autoComplete}
 		              value ={this.state.searchCity} 
-		              placeholder='Seach places and restaurants' 
-		              onSubmitEditing= {this.findPlacesandRestaurants.bind(this)}
+		              placeholder='Type here...' 
+		              onItemPress= {this.findPlacesandRestaurants.bind(this)}
 		         />
    
-		     	<Button
-					  onPress={this.findPlacesandRestaurants.bind(this)}
-					  title="Find places and restaurants"
-					  color="#841584"
-				/>
 				<ScrollView>
 					<List>
 						{placeList}
@@ -116,7 +120,7 @@ export default class ExploreCityPage extends React.Component {
 
 				</ScrollView>
 
-				
+			
 	     	</View>
 	     )
 	     
@@ -124,16 +128,15 @@ export default class ExploreCityPage extends React.Component {
 	}
 }
 const styles = StyleSheet.create({
-  textInput: {
-        alignSelf: 'stretch',
-        color: '#fff',
-        padding: 20,
-        backgroundColor: '#252525',
-        borderTopWidth:2,
-        borderTopColor: '#ededed'
+  container:{
+  	flex:1,
+  	backgroundColor:'#b8b894'
   },
   resultSection:{
   		height:200
+  },
+  backgroundImage:{
+    flex: 1
   }
 
 });
