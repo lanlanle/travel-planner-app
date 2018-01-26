@@ -19,7 +19,8 @@ export default class ExploreDetail extends React.Component {
         photosUrl:[],
         photosRef:[],
         reviews:[],
-        website:''
+        website:'',
+        address:''
       }
     }
 
@@ -27,6 +28,7 @@ export default class ExploreDetail extends React.Component {
       axios.get("https://maps.googleapis.com/maps/api/place/details/json?placeid="+placeID+"&key="+info.API_KEY).then((response)=>{
         this.setState({reviews:response.data.result.reviews})
         this.setState({website:response.data.result.website})
+        this.setState({address:response.data.result.formatted_address})
         response.data.result.photos.map((photo)=>{
           // console.log("photo_ref",photo.photo_reference)
           this.getPhotos(this.state.photosUrl,photo.photo_reference)
@@ -52,7 +54,7 @@ export default class ExploreDetail extends React.Component {
     componentDidUpdate(){
 
       const { params } = this.props.navigation.state;
-      if (counter<3){
+      if (counter<5){
          this.getPlaceData(params.placeID)
       }
      
@@ -67,7 +69,7 @@ export default class ExploreDetail extends React.Component {
 
     let photosList =this.state.photosUrl.map((photoSrc,key)=>{
       console.log("get from list", photoSrc)
-      return <Image key={key} keyval={key} style={{width: 310, height: 200, margin:2}} source={{uri:photoSrc}}/>
+      return <Image key={key} keyval={key} style={{width: 315, height: 300, margin:2}} source={{uri:photoSrc}}/>
     })
     let reviewsList =this.state.reviews.map((item,key)=>{
       return <ListItem key={key} keyval={key} 
@@ -91,9 +93,11 @@ export default class ExploreDetail extends React.Component {
           <Text style= {styles.btnText}>Add</Text>
           </TouchableOpacity>
         </View>
+        
+        <Text style ={styles.header}>{this.state.address}</Text>
         <Text style ={styles.header}>Website: {this.state.website}</Text>
+        
 
-        <Text style ={styles.header}>Reviews</Text>
         <ScrollView>
           <List>
             {reviewsList}
@@ -112,12 +116,13 @@ export default class ExploreDetail extends React.Component {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:'#b8b894'
+    backgroundColor:'#d8caa4'
   },
   title: {
     marginTop:15,
     marginLeft:15,
-    fontSize:20
+    fontSize:20,
+    fontWeight:'bold'
   },
   header: {
       marginTop:5,
@@ -125,7 +130,7 @@ const styles = StyleSheet.create({
       fontSize:15
   },
   btn: {
-    width:20,
+    width:50,
     margin:5,
     backgroundColor:'#9f886f'
   },

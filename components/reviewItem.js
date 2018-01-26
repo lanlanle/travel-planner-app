@@ -7,7 +7,7 @@ export default class ReviewItem extends React.Component {
   render() {
     return (
       <View >
-          <Text>Rating: {this.props.rating}- {this.props.time}</Text>
+          <Text style={{fontStyle:'italic'}}>Rating: {this.props.rating}- {this.props.time}</Text>
           <Text>Review: {this.props.text}</Text>
       </View>
     );

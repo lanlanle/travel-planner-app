@@ -34,18 +34,6 @@ export default class ExploreCityPage extends React.Component {
 	getPlaces(param){
 		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=point_of_interest+in+'+param+'&key='+info.API_KEY).then((response)=>{
 			this.setState({placesResultArray:response.data.results})
-			// response.data.results.map((item)=>{
-			// 	this.getPhotos(this.state.placesImageUrlArray,item.photos[0].photo_reference)
-			// })
-			
-		})
-	}
-	getRestaurants(param){
-		axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query=restaurants+in+'+param+'&key='+info.API_KEY).then((response)=>{
-			this.setState({restaurantsResultArray:response.data.results})
-			response.data.results.map((item)=>{
-				this.getPhotos(this.state.restaurantsImageUrlArray,item.photos[0].photo_reference)
-			})
 			
 		})
 	}
@@ -68,7 +56,7 @@ export default class ExploreCityPage extends React.Component {
 		})
 	}
 
-	findPlacesandRestaurants(){
+	findPlaces(){
 		console.log('button hit')
 		if(this.state.searchCity){
 			var city_param = this.state.searchCity.replace(/\s/g, "")
@@ -117,7 +105,7 @@ export default class ExploreCityPage extends React.Component {
 		              onChangeText={this.autoComplete}
 		              value ={this.state.searchCity} 
 		              placeholder='Type here...' 
-		              onItemPress= {this.findPlacesandRestaurants.bind(this)}
+		              onItemPress= {this.findPlaces.bind(this)}
 		         />
    
 				<ScrollView>
