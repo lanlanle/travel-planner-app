@@ -85,17 +85,24 @@ export default class ExploreCityPage extends React.Component {
 				<TouchableHighlight  key={key} keyval={key} onPress={() => navigate('ExploreDetail', { place:item.name,placeID:item.place_id,photoUrl:this.state.placesImageUrlArray[key]})} title={item.name}>
 					<View ref={component => this._root = component}>
 						<ListItem key={key} keyval={key} 
+								containerStyle={{backgroundColor:'rgba(255, 255, 255, 0.85)',
+												margin:10,
+												marginRight:20}}
 								title={item.name} 
+								titleStyle={{fontSize:20,
+									        color:'#907d53',
+									        fontWeight:'bold'   }}
 								subtitle={item.types.join()}
-								avatar={{uri:item.icon}}/>
+								subtitleStyle={{fontStyle:'italic'}}
+								avatar={{uri:item.icon}}
+								avatarContainerStyle={{width:50,height:50}}/>
 					</View>
 					
 				</TouchableHighlight>
 			) 
 		})
 	     return (
-	     	<View style={styles.container}>
-	     	
+	     	<ImageBackground source={{uri:"http://afamilycdn.com/KKeeNwcSSZYWZsF7Ky9KzFlY9R0wGt/Image/2013/10/Ngam/1310/tumblr_mormapKZj21rbwsb5o1_1280-e4f70.jpg"}} style={styles.backgroundImage}>
 	     		<AutoSuggest
 		              textInputStyles={{
 				        alignSelf: 'stretch',
@@ -114,14 +121,12 @@ export default class ExploreCityPage extends React.Component {
 		         />
    
 				<ScrollView>
-					<List>
+					<List containerStyle={{backgroundColor:'rgba(255, 255, 255, 0)'}}>
 						{placeList}
 					</List>
 
 				</ScrollView>
-
-			
-	     	</View>
+			</ImageBackground>
 	     )
 	     
 
